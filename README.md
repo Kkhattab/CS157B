@@ -1,6 +1,11 @@
 CS157B
 ======
 
+Requirements
+-----
+MySQL installed
+Java SDK 1.8
+
 Setup
 -----
 
