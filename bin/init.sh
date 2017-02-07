@@ -3,7 +3,7 @@
 echo "starting mysql"
 mysql.server start
 
-echo "add JDBC"
+echo "add JDBC; may need your SUDO pw"
 sudo cp mysql-connector-java-5.1.40-bin.jar /Library/Java/Extensions
 
 echo "mysql init db with jdbc user"
