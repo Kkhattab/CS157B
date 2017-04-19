@@ -3,7 +3,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateTest {
-
+	
 	public static void main(String[] args) {
 		Sales iPhone = new Sales();
 		iPhone.setDate("4/19/17");
@@ -42,7 +42,7 @@ public class HibernateTest {
 
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 
-		//Create a new session
+		//Create a new session and save data to the DB
 		Session s = sf.openSession();
 		s.beginTransaction();
 		s.save(iPhone);
@@ -51,7 +51,17 @@ public class HibernateTest {
 		s.save(nswitch);
 		s.save(macbook);
 		s.getTransaction().commit();
-
+		s.close();
+		
+		//Retrieve data from the DB
+		Sales query = null;
+		s = sf.openSession();
+		s.beginTransaction();
+		query = (Sales) s.get(Sales.class, "1/1/17");
+		
+		//Display retrieved data
+		System.out.println(query.getDate() + " " + query.getProductName() + " " + 
+		query.getQuantity() + " " + query.getTotalCost() + " " + query.getUnitCost());
 	}
 
 }
