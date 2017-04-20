@@ -1,10 +1,12 @@
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import java.util.ArrayList;
 
 public class HibernateTest {
-	
+
+
 	public static void main(String[] args) {
+		QueryDB test = new QueryDB();
+		ArrayList<Sales> sales = new ArrayList<Sales>();
+		
 		Sales iPhone = new Sales();
 		iPhone.setDate("4/19/17");
 		iPhone.setProductName("iPhone 8");
@@ -40,28 +42,18 @@ public class HibernateTest {
 		macbook.setUnitCost(1500.00);
 		macbook.setTotalCost(1500.00);
 
-		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+		sales.add(macbook);
+		sales.add(nswitch);
+		sales.add(yoga);
+		sales.add(s8);
+		sales.add(iPhone);
+		
+		test.populateDB(sales);
 
-		//Create a new session and save data to the DB
-		Session s = sf.openSession();
-		s.beginTransaction();
-		s.save(iPhone);
-		s.save(s8);
-		s.save(yoga);
-		s.save(nswitch);
-		s.save(macbook);
-		s.getTransaction().commit();
-		s.close();
+		System.out.println("Date | Product Name | Quantity | Total Cost | Unit Cost");
+		System.out.println(macbook.getDate() + " | " + macbook.getProductName() + " | " + 
+		macbook.getQuantity() + " | " + macbook.getTotalCost() + " | " + macbook.getUnitCost());
 		
-		//Retrieve data from the DB
-		Sales query = null;
-		s = sf.openSession();
-		s.beginTransaction();
-		query = (Sales) s.get(Sales.class, "1/1/17");
-		
-		//Display retrieved data
-		System.out.println(query.getDate() + " " + query.getProductName() + " " + 
-		query.getQuantity() + " " + query.getTotalCost() + " " + query.getUnitCost());
 	}
 
 }
