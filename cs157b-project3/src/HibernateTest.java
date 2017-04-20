@@ -2,11 +2,11 @@ import java.util.ArrayList;
 
 public class HibernateTest {
 
-
 	public static void main(String[] args) {
 		QueryDB test = new QueryDB();
 		ArrayList<Sales> sales = new ArrayList<Sales>();
 		
+		//Test sales data
 		Sales iPhone = new Sales();
 		iPhone.setDate("4/19/17");
 		iPhone.setProductName("iPhone 8");
@@ -42,17 +42,21 @@ public class HibernateTest {
 		macbook.setUnitCost(1500.00);
 		macbook.setTotalCost(1500.00);
 
+		//Add all test sales data to an array list
 		sales.add(macbook);
 		sales.add(nswitch);
 		sales.add(yoga);
 		sales.add(s8);
 		sales.add(iPhone);
 		
+		//Pass test sales data into populateDB, to be saved into the DB
 		test.populateDB(sales);
 
+		//Retrieve and display one test Sales object
+		Sales sample = test.queryDB("2/3/17");
 		System.out.println("Date | Product Name | Quantity | Total Cost | Unit Cost");
-		System.out.println(macbook.getDate() + " | " + macbook.getProductName() + " | " + 
-		macbook.getQuantity() + " | " + macbook.getTotalCost() + " | " + macbook.getUnitCost());
+		System.out.println(sample.getDate() + " | " + sample.getProductName() + " | " + 
+		sample.getQuantity() + " | " + sample.getTotalCost() + " | " + sample.getUnitCost());
 		
 	}
 
