@@ -22,7 +22,7 @@ public class QueryDB {
 	 */
 	public void populateDB(ArrayList<Sales> list) {
 		//Create a new session and save data to the DB
-		Session s = sf.openSession();
+		s = sf.openSession();
 		s.beginTransaction();
 		
 		//Save all new Sales records to the DB
@@ -40,9 +40,46 @@ public class QueryDB {
 	 * @return Sales object that is associated with the date
 	 */
 	public Sales queryDB(String date) {
-		//Retrieve data from the DB
-		s = sf.openSession(); //Reopen a session with DB
+		//Reopen a session with DB
+		s = sf.openSession();
 		s.beginTransaction();
-		return (Sales) s.get(Sales.class, date);
+		Sales result = (Sales) s.get(Sales.class, date);
+		s.close();
+		
+		return result;
+	}
+	
+	/**
+	 * Query DB with aggregate functions
+	 * @param cmd the aggregate function
+	 * @param arg the relevant parameter
+	 */
+	public void aggregateFunctions(String cmd, String arg) {
+		s = sf.openSession();
+		s.beginTransaction();
+		String query = "";
+		
+		if (cmd.equals("ORDER BY")) {
+			query = String.format("SELECT ProductName FROM Sales ORDER BY %s", arg);
+			ArrayList<String> rs = (ArrayList<String>) s.createQuery(query).getResultList();
+			
+			for (String result : rs) {
+				System.out.println(result);
+			}
+				
+		} else if (cmd.equals("MIN")) {
+			query = String.format("SELECT MIN(%s) FROM Sales", arg);
+			System.out.println(s.createQuery(query).getSingleResult());
+
+		} else if (cmd.equals("MAX")) {
+			query = String.format("SELECT MAX(%s) FROM Sales",arg);
+			System.out.println(s.createQuery(query).getSingleResult());
+			
+		} else if (cmd.equals("DISTINCT")) {
+			query = String.format("SELECT COUNT(DISTINCT %s) FROM Sales", arg);
+			System.out.println(s.createQuery(query).getSingleResult());
+		}
+		s.close();
+		
 	}
 }
