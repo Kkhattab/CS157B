@@ -50,6 +50,22 @@ public class QueryDB {
 	}
 	
 	/**
+	 * Query the database for sales data for a particular product over a time period
+	 * @param productName name of the product
+	 * @param fromDate starting date
+	 * @param toDate ending date
+	 */
+	public void queryDBRange(String productName, String fromDate, String toDate) {
+		Sales sample1 = queryDB(fromDate);
+		Sales sample2 = queryDB(toDate);
+		
+		System.out.printf("%s sales during 4/19/17: %d \n", sample1.getProductName(), sample1.getQuantity());
+		System.out.printf("%s sales during 4/24/17: %d \n", sample2.getProductName(), sample2.getQuantity());
+		
+		System.out.printf("There has been a change in sales of: %d \n", sample2.getQuantity()-sample1.getQuantity());
+	}
+	
+	/**
 	 * Query DB with aggregate functions
 	 * @param cmd the aggregate function
 	 * @param arg the relevant parameter

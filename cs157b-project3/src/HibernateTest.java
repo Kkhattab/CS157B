@@ -74,13 +74,7 @@ public class HibernateTest {
 		System.out.println(sample.getDate() + " | " + sample.getProductName() + " | " + sample.getQuantity() + " | " + sample.getTotalCost() + " | " + sample.getUnitCost());
 		
 		//Retrieve sales for a given product over a given time period
-		Sales sample1 = test.queryDB("4/19/17");
-		Sales sample2 = test.queryDB("5/24/17");
-		
-		System.out.printf("iPhone 8 sales during 4/19/17: %d \n", sample1.getQuantity());
-		System.out.printf("iPhone 8 sales during 4/24/17: %d \n", sample2.getQuantity());
-		
-		System.out.printf("There has been a change in sales of: %d \n", sample2.getQuantity()-sample1.getQuantity());
+		test.queryDBRange("iPhone 8", "4/19/17", "5/24/17");
 		
 		//Test aggregate functions
 		test.aggregateFunctions("ORDER BY", "ProductName");
